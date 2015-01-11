@@ -1,4 +1,3 @@
 emoji ~emoji(grin)
-gemoji ~gemoji(grin)
-:~gemoji(grin):?
+:~emoji(grin):?
 ~emoji(happy) emoji

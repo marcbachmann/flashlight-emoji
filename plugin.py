@@ -119,8 +119,8 @@ def build_html(appearance, content):
     </head>
     <script>
         function copyToClipboard(emoji) {
-            command = 'echo "'+emoji+'" | LANG=en_US.UTF-8 pbcopy && osascript -e \\'display notification "Copied!" with title "Flashlight"\\'';
-            flashlight.bash(command);
+            command = 'printf "{{emoji}}" | LANG=en_US.UTF-8 pbcopy && osascript -e \\'display notification "Copied {{emoji}}" with title "Flashlight"\\'';
+            flashlight.bash(command.replace(/{{emoji}}/g, emoji));
         }
     </script>
     <body class="{{appearance}}">
@@ -149,7 +149,7 @@ def build_emoji_html(emoji):
 import json
 def results(params, original_query):
     is_gemoji = False
-    if params.has_key('~gemoji') == 1:
+    if params.has_key('~gemoji'):
         is_gemoji = True
         query = params['~gemoji']
     else:
@@ -163,11 +163,7 @@ def results(params, original_query):
     title = 'No emoji is matching your search'
 
     if len(emojis['matches']):
-        if is_gemoji:
-            output = ':%s:' % (emojis['matches'][0]['aliases'][0])
-        else:
-            output = emojis['matches'][0].get('emoji')
-
+        output = emojis['matches'][0].get('emoji')
         title = 'Copy the emoji %s to the clipboard' % (output)
         content = '<h1>Emojis maching your search <small>%s results</small></h1><div class="emojis">' % (len(emojis['matches']))
         for emoji in emojis['matches']:
@@ -190,7 +186,7 @@ def results(params, original_query):
 
 def run(output):
     import subprocess
-    command = 'echo "{{output}}" | tr -d "\n" | LANG=en_US.UTF-8 pbcopy && osascript -e \'display notification "Copied {{output}}" with title "Flashlight"\''.replace('{{output}}', output)
+    command = 'printf "{{output}}" | LANG=en_US.UTF-8 pbcopy && osascript -e \'display notification "Copied {{output}}" with title "Flashlight"\''.replace('{{output}}', output)
     subprocess.call([command], shell=True)
 
 
