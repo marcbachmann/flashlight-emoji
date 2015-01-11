@@ -68,7 +68,7 @@ def build_html(appearance, content):
                 padding: 10px 12px;
                 font: 15px/1.4 'Helvetica Neue';
                 font-weight: 300;
-                /*-webkit-user-select: none;*/
+                -webkit-user-select: none;
             }
 
             h1 {
@@ -190,7 +190,8 @@ def results(params, original_query):
 
 def run(output):
     import subprocess
-    subprocess.call(['echo "'+output+'" | LANG=en_US.UTF-8  pbcopy && osascript -e \'display notification "Copied!" with title "Flashlight"\''], shell=True)
+    command = 'echo "{{output}}" | tr -d "\n" | LANG=en_US.UTF-8 pbcopy && osascript -e \'display notification "Copied {{output}}" with title "Flashlight"\''.replace('{{output}}', output)
+    subprocess.call([command], shell=True)
 
 
 # print results({'~emoji': 'grin'}, 'emoji grinn')
