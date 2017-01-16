@@ -1,9 +1,9 @@
 {
     "name": "emoji",
     "displayName": "Emoji",
-    "description": "Search and copy emoji.",
+    "description": "Search for emojis to insert into text inputs.",
     "examples": ["emoji grin", "heart emoji", ":rocket:"],
-    "categories": ["Utilities", "Featured"],
-    "creator_name": "Marc Bachmann",
-    "creator_url": "https://github.com/marcbachmann/flashlight-emoji"
+    "categories": ["Utilities"],
+    "creator_name": "theonlygusti",
+    "creator_url": "https://github.com/theonlygusti/flashlight-emoji"
 }
