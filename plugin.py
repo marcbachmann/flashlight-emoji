@@ -119,7 +119,7 @@ def build_html(appearance, content):
     </head>
     <script>
         function copyToClipboard(emoji) {
-            command = 'printf "{{emoji}}" | LANG=en_US.UTF-8 pbcopy && osascript -e \\'display notification "Copied {{emoji}}" with title "Flashlight"\\'';
+            command = 'printf "{{emoji}}" | LANG=en_US.UTF-8 pbcopy && osascript -e \\'display notification "Copied {{emoji}} to the clipboard" with title "Flashlight"\\'';
             flashlight.bash(command.replace(/{{emoji}}/g, emoji));
         }
     </script>
@@ -164,8 +164,8 @@ def results(params, original_query):
 
     if len(emojis['matches']):
         output = emojis['matches'][0].get('emoji')
-        title = 'Copy the emoji %s to the clipboard' % (output)
-        content = '<h1>Emojis maching your search <small>%s results</small></h1><div class="emojis">' % (len(emojis['matches']))
+        title = "Press enter to insert the %s emoji" % (output)
+        content = '<h1>Emojis matching your search <small>{} results</small></h1><div class="emojis">'.format(len(emojis['matches']))
         for emoji in emojis['matches']:
             content += build_emoji_html(emoji)
         content += '</div>'
@@ -186,9 +186,15 @@ def results(params, original_query):
 
 def run(output):
     import subprocess
-    command = 'printf "{{output}}" | LANG=en_US.UTF-8 pbcopy && osascript -e \'display notification "Copied {{output}}" with title "Flashlight"\''.replace('{{output}}', output)
-    subprocess.call([command], shell=True)
+    import os
+    parent = os.fork()
+    if parent > 0:
+        return
+    else:
+        command = """tell application "System Events" to keystroke "" & (set the clipboard to "%s") & keystroke "v" using command down""" % (output)
+        subprocess.call(["osascript", "-e", command])
+        return
 
 
-# print results({'~emoji': 'grin'}, 'emoji grinn')
-# run(results({'~emoji': 'grin'}, 'emoji grinn')['run_args'][0])
+#print results({'~emoji': 'grin'}, 'emoji grinn')
+#run(results({'~emoji': 'grin'}, 'emoji grinn')['run_args'][0])
