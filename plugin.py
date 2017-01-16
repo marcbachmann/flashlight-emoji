@@ -186,7 +186,7 @@ def results(params, original_query):
 
 def run(output):
     import subprocess
-    command = 'printf "{{output}}" | LANG=en_US.UTF-8 pbcopy && osascript -e \'display notification "Copied {{output}} to the clipboard" with title "Flashlight"\''.replace('{{output}}', output)
+    command = "osascript -e 'tell application \"System Events\" to keystroke \"{output}\" & return'".format(output=output)
     subprocess.call([command], shell=True)
 
 
