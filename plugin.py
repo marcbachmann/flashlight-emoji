@@ -164,7 +164,7 @@ def results(params, original_query):
 
     if len(emojis['matches']):
         output = emojis['matches'][0].get('emoji')
-        title = 'Copy the emoji %s to the clipboard' % (output)
+        title = 'Press enter to insert the %s emoji' % (output)
         content = '<h1>Emojis maching your search <small>%s results</small></h1><div class="emojis">' % (len(emojis['matches']))
         for emoji in emojis['matches']:
             content += build_emoji_html(emoji)
