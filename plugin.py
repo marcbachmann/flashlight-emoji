@@ -164,7 +164,7 @@ def results(params, original_query):
 
     if len(emojis['matches']):
         output = emojis['matches'][0].get('emoji')
-        title = 'Press enter to insert the {} emoji'.format(output)
+        title = "Press enter to insert the %s emoji" % (output)
         content = '<h1>Emojis maching your search <small>{} results</small></h1><div class="emojis">'.format(len(emojis['matches']))
         for emoji in emojis['matches']:
             content += build_emoji_html(emoji)
@@ -186,7 +186,7 @@ def results(params, original_query):
 
 def run(output):
     import subprocess
-    command = "osascript -e 'tell application \"System Events\" to keystroke \"{output}\" & return'".format(output=output)
+    command = "osascript -e 'tell application \"System Events\" to keystroke \"\" & (delay 1) & keystroke \"%s\" & return'" % (output)
     subprocess.call([command], shell=True)
 
 
