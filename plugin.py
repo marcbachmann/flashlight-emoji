@@ -119,7 +119,7 @@ def build_html(appearance, content):
     </head>
     <script>
         function copyToClipboard(emoji) {
-            command = 'printf "{{emoji}}" | LANG=en_US.UTF-8 pbcopy && osascript -e \\'display notification "Copied {{emoji}}" with title "Flashlight"\\'';
+            command = 'printf "{{emoji}}" | LANG=en_US.UTF-8 pbcopy && osascript -e \\'display notification "Copied {{emoji}} to the clipboard" with title "Flashlight"\\'';
             flashlight.bash(command.replace(/{{emoji}}/g, emoji));
         }
     </script>
@@ -186,7 +186,7 @@ def results(params, original_query):
 
 def run(output):
     import subprocess
-    command = 'printf "{{output}}" | LANG=en_US.UTF-8 pbcopy && osascript -e \'display notification "Copied {{output}}" with title "Flashlight"\''.replace('{{output}}', output)
+    command = 'printf "{{output}}" | LANG=en_US.UTF-8 pbcopy && osascript -e \'display notification "Copied {{output}} to the clipboard" with title "Flashlight"\''.replace('{{output}}', output)
     subprocess.call([command], shell=True)
 
 
