@@ -188,13 +188,13 @@ def run(output):
     import subprocess
     import os
     parent = os.fork()
-    if parent:
-        exit()
+    if parent > 0:
+        return
     else:
-        command = """osascript -e 'tell application "System Events" to keystroke "" & (set the clipboard to "%s") & keystroke "v" using command down'""" % (output)
-        subprocess.call([command], shell=True)
-        exit()
+        command = """tell application "System Events" to keystroke "" & (set the clipboard to "%s") & keystroke "v" using command down""" % (output)
+        subprocess.call(["osascript", "-e", command])
+        return
 
 
-# print results({'~emoji': 'grin'}, 'emoji grinn')
-# run(results({'~emoji': 'grin'}, 'emoji grinn')['run_args'][0])
+#print results({'~emoji': 'grin'}, 'emoji grinn')
+#run(results({'~emoji': 'grin'}, 'emoji grinn')['run_args'][0])
