@@ -186,8 +186,14 @@ def results(params, original_query):
 
 def run(output):
     import subprocess
-    command = "osascript -e 'tell application \"System Events\" to keystroke \"\" & (delay 1) & keystroke \"%s\" & return'" % (output)
-    subprocess.call([command], shell=True)
+    import os
+    parent = os.fork()
+    if parent:
+        exit()
+    else:
+        command = """osascript -e 'tell application "System Events" to keystroke "" & (set the clipboard to "%s") & keystroke "v" using command down'""" % (output)
+        subprocess.call([command], shell=True)
+        exit()
 
 
 # print results({'~emoji': 'grin'}, 'emoji grinn')
